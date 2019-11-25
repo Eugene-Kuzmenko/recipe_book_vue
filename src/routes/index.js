@@ -4,8 +4,9 @@ import Chain from './Chain';
 import Recipes from './Recipes';
 
 export default new VueRouter({
+  mode: "history",
   routes: [
     { path: '/recipes', component: Recipes },
-    { path: '/recipes', component: Chain },
+    { path: '/chain', component: Chain },
   ]
 });

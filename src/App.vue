@@ -4,18 +4,19 @@
       <router-link
         class="nav-btn"
         tag="button"
-        to="/recipes"
+        to="recipes"
       >
         Recipes
       </router-link>
       <router-link
         class="nav-btn"
         tag="button"
-        to="/chain"
+        to="chain"
       >
         Chain
       </router-link>
     </nav>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -31,6 +32,8 @@
     background-color: #2e2e2e;
     color: #dbdbdb;
     font-size: 16px;
+    padding: 0;
+    margin: 0;
   }
 </style>
 
@@ -52,6 +55,7 @@
     background-color: transparent;
     color: inherit;
     font-size: 1rem;
+    padding: 0 20px;
 
   }
   .nav-btn:focus {
