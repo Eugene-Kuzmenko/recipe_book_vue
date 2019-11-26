@@ -1,26 +1,28 @@
 <template>
   <div class="container">
     <input
-      v:model="search"
+      v-model="search"
       class="input"
       type="text"
     />
-    <ul
-      class="list"
-    >
-      <button
-        class="add"
-        v-on:click="addItem"
+    <div class=list-container>
+      <ul
+        class="list"
       >
-        Add {{ search }}
-      </button>
-      <Item
-        v-for="item in items"
-        :key="item.id"
-        :item="item"
-        v-on:removeItem="removeItem"
-      ></Item>
-    </ul>
+        <button
+          class="add"
+          v-on:click="addItem"
+        >
+          Add {{ search }}
+        </button>
+        <Item
+          v-for="item in items"
+          :key="item.id"
+          :item="item"
+          v-on:removeItem="removeItem"
+        ></Item>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -38,7 +40,7 @@
         search: '',
       }
     },
-    onMount() {
+    mounted() {
       this.getItemList();
     },
     computed: {
@@ -49,15 +51,15 @@
     methods: {
       ...mapActions({
         removeItem(dispatch, id) {
-          dispatch(ITEM_REMOVE, id);
+          dispatch(ITEM_REMOVE.type, id);
         },
         addItem(dispatch) {
-          dispatch(ITEM_ADD, {
+          dispatch(ITEM_ADD.type, {
             name: this.$data.search,
           });
         },
         getItemList(dispatch) {
-          dispatch(ITEM_LIST_GET, {
+          dispatch(ITEM_LIST_GET.type, {
             name: this.$data.search,
           })
         }
@@ -68,18 +70,58 @@
 
 <style scoped>
   .container {
+    width: 25%;
+    padding: 0;
+    margin: 0;
+  }
 
+  .list-container {
+    padding: 5px;
+    height: 500px;
+    box-sizing: border-box;
   }
 
   .list {
-
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow-y: scroll;
+    border: 2px solid #6c6c6c;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scrollbar-color: #1f1f1f transparent; /*css-lint-ignore */
   }
 
   .input {
+    background:  #1f1f1f;
+    border: 2px solid #6c6c6c;
+    width: 100%;
+    padding: 7px;
+    font-size: 0.9rem;  
+    font-weight: 500;
+    box-sizing: border-box;
+    color: rgba(255, 255, 255, 0.568);
+  }
 
+  .input:focus {
+    outline: none;
+    border-color: #788787
   }
 
   .add {
+    width: 100%;
+    display: block;
+    background: transparent;
+    color: inherit;
+    border: none;
+    border-bottom: 1px solid #5A5A5A;
+    margin: 0;
+    font-size: 1rem;
+    height: 35px;
+  }
 
+  .add:active {
+    background-color: #656d6b54;
   }
 </style>

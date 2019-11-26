@@ -13,7 +13,7 @@ export default {
     list: [],
   },
   mutations: {
-    [ITEM_LIST_GET.SUCCESS](state, { list }) {
+    [ITEM_LIST_GET.SUCCESS](state, list) {
       state.list = list;
     },
     [ITEM_ADD.SUCCESS](state, { item }) {
@@ -32,7 +32,7 @@ export default {
   actions: {
     async [ITEM_LIST_GET](context) {
       try {
-        const { data } = await api.get('items');
+        const { data } = await api.get('items/');
         context.commit(ITEM_LIST_GET.SUCCESS, data);
       } catch (error) {
         context.commit(ITEM_LIST_GET.FAILURE, error);
@@ -40,7 +40,7 @@ export default {
     },
     async [ITEM_ADD](context, payload) {
       try {
-        await api.post('items', payload);
+        await api.post('items/', payload);
         context.commit(ITEM_ADD.SUCCESS, payload);
       } catch (error) {
         context.commit(ITEM_ADD.FAILURE, error);
@@ -48,7 +48,7 @@ export default {
     },
     async [ITEM_CHANGE](context, item) {
       try {
-        await api.patch(`items/${item.id}`, item);
+        await api.patch(`items/${item.id}/`, item);
         context.commit(ITEM_CHANGE.SUCCESS, item);
       } catch (error) {
         context.commit(ITEM_CHANGE.FAILURE, error);
@@ -56,7 +56,7 @@ export default {
     },
     async [ITEM_REMOVE](context, id) {
       try {
-        await api.patch(`items/${id}`,);
+        await api.patch(`items/${id}/`,);
         context.commit(ITEM_REMOVE.SUCCESS, id);
       } catch (error) {
         context.commit(ITEM_REMOVE.FAILURE, error);

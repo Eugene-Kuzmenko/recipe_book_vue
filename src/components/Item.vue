@@ -64,7 +64,19 @@
 
 <style scoped>
   .container {
+    width: 100%;
     display: flex;
+    background: transparent;
+    color: inherit;
+    border: none;
+    border-bottom: 1px solid #5A5A5A;
+    margin: 0;
+    font-size: 1rem;
+    height: 35px;
+  }
+
+  .add:active {
+    background-color: #656d6b54;
   }
 
   .name {

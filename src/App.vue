@@ -39,7 +39,7 @@
 
 <style scoped>
   #app {
-
+    min-height: 100vh;
   }
   .nav {
     justify-content: center;
