@@ -1,5 +1,5 @@
 <template>
-  <li class="container">
+  <li class="item">
     <div
       class="count"
       v-if="count"
@@ -7,6 +7,7 @@
       {{ count }}
     </div>
     <input
+      class='input'
       v-if="isEditing"
       type="text"
       v-model="newName"
@@ -22,7 +23,7 @@
     </div>
     <button
       class="remove"
-      v-on:click="$emit('remove', item.id)"
+      v-on:click.stop.prevent="$emit('removeItem', item.id)"
     >
       X
     </button>
@@ -63,9 +64,11 @@
 </script>
 
 <style scoped>
-  .container {
+  .item {
+    cursor: pointer;
     width: 100%;
     display: flex;
+    align-items: center;
     background: transparent;
     color: inherit;
     border: none;
@@ -75,11 +78,37 @@
     height: 35px;
   }
 
-  .add:active {
+  .item:active {
     background-color: #656d6b54;
   }
 
-  .name {
+  .input {
+    background:  #1f1f1f;
+    border: 2px solid #6c6c6c;
+    width: 100%;
+    padding: 7px;
+    font-size: 0.9rem;  
+    font-weight: 500;
+    box-sizing: border-box;
+    color: rgba(255, 255, 255, 0.568);
+  }
 
+  .name {
+    flex: 1;
+    padding: 0 8px; 
+  }
+
+  .remove {
+    cursor: pointer;
+    height: 100%;
+    width: 35px;
+    font-size: 1.2rem;
+    background: transparent;
+    border: none;
+    color: inherit;
+  }
+
+  .remove:active {
+    background-color: #656d6b54;
   }
 </style>

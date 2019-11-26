@@ -16,7 +16,7 @@ export default {
     [ITEM_LIST_GET.SUCCESS](state, list) {
       state.list = list;
     },
-    [ITEM_ADD.SUCCESS](state, { item }) {
+    [ITEM_ADD.SUCCESS](state, item) {
       state.list.push(item);
     },
 
@@ -40,8 +40,8 @@ export default {
     },
     async [ITEM_ADD](context, payload) {
       try {
-        await api.post('items/', payload);
-        context.commit(ITEM_ADD.SUCCESS, payload);
+        const { data } = await api.post('items/', payload);
+        context.commit(ITEM_ADD.SUCCESS, data);
       } catch (error) {
         context.commit(ITEM_ADD.FAILURE, error);
       }
@@ -56,7 +56,7 @@ export default {
     },
     async [ITEM_REMOVE](context, id) {
       try {
-        await api.patch(`items/${id}/`,);
+        await api.delete(`items/${id}/`,);
         context.commit(ITEM_REMOVE.SUCCESS, id);
       } catch (error) {
         context.commit(ITEM_REMOVE.FAILURE, error);

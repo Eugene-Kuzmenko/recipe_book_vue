@@ -17,8 +17,8 @@
         </button>
         <Item
           v-for="item in items"
-          :key="item.id"
-          :item="item"
+          v-bind:key="item.id"
+          v-bind:item="item"
           v-on:removeItem="removeItem"
         ></Item>
       </ul>
@@ -34,7 +34,7 @@
 
   export default {
     name:"ItemPanel",
-    component: { Item },
+    components: { Item },
     data() {
       return {
         search: '',
@@ -84,7 +84,7 @@
   .list {
     width: 100%;
     height: 100%;
-    display: flex;
+    display: block;
     overflow-y: scroll;
     border: 2px solid #6c6c6c;
     margin: 0;
