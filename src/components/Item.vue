@@ -47,12 +47,12 @@
 
     methods: {
       startEditingName() {
-        this.$data.newName = this.$props.name;
+        this.$data.newName = this.$props.item.name;
         this.$data.isEditing = true;
       },
       ...mapActions({
         saveName(dispatch) {
-          dispatch(ITEM_CHANGE, {
+          dispatch(ITEM_CHANGE.type, {
             id: this.$props.item.id,
             name: this.$data.newName,
           });

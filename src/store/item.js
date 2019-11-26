@@ -48,8 +48,8 @@ export default {
     },
     async [ITEM_CHANGE](context, item) {
       try {
-        await api.patch(`items/${item.id}/`, item);
-        context.commit(ITEM_CHANGE.SUCCESS, item);
+        const { data } = await api.patch(`items/${item.id}/`, item);
+        context.commit(ITEM_CHANGE.SUCCESS, data);
       } catch (error) {
         context.commit(ITEM_CHANGE.FAILURE, error);
       }
