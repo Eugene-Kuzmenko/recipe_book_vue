@@ -30,9 +30,11 @@ export default {
     }
   },
   actions: {
-    async [ITEM_LIST_GET](context) {
+    async [ITEM_LIST_GET](context, params) {
       try {
-        const { data } = await api.get('items/');
+        const { data } = await api.get('items/', {
+          params
+        });
         context.commit(ITEM_LIST_GET.SUCCESS, data);
       } catch (error) {
         context.commit(ITEM_LIST_GET.FAILURE, error);

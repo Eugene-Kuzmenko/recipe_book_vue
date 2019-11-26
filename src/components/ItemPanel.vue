@@ -4,6 +4,7 @@
       v-model="search"
       class="input"
       type="text"
+      v-on:keypress.enter="getItemList"
     />
     <div class=list-container>
       <ul
