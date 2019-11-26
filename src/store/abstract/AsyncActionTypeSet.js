@@ -1,4 +1,4 @@
-export class AsyncActionTypeSet {
+export default class AsyncActionTypeSet {
   constructor(type) {
     this.type=type;
     this.SUCCESS=`${type}_SUCCESS`;

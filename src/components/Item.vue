@@ -19,7 +19,7 @@
       class="name"
     >
       {{ item.name }}
-    <div>
+    </div>
     <button
       class="remove"
       v-on:click="$emit('remove', item.id)"
@@ -52,7 +52,7 @@
       ...mapActions({
         saveName(dispatch) {
           dispatch(ITEM_CHANGE, {
-            id: item.id,
+            id: this.$props.item.id,
             name: this.$data.newName,
           });
           this.$data.isEditing = false;

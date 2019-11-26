@@ -46,10 +46,10 @@ export default {
         context.commit(ITEM_ADD.FAILURE, error);
       }
     },
-    async [ITEM_CHANGE](context, payload) {
+    async [ITEM_CHANGE](context, item) {
       try {
-        await api.patch(`items/${item.id}`, payload);
-        context.commit(ITEM_CHANGE.SUCCESS, payload);
+        await api.patch(`items/${item.id}`, item);
+        context.commit(ITEM_CHANGE.SUCCESS, item);
       } catch (error) {
         context.commit(ITEM_CHANGE.FAILURE, error);
       }
