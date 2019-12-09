@@ -1,16 +1,17 @@
 <template lang="pug">
   ListPanel(
-    :list="items"
+    :list="recipes"
+    @dragstart="dragStart"
     @fetch="getItemList"
     @remove="removeItem"
     @add="addItem"
     @update="changeItem"
-  ) Items
+  ) Recipe
 </template>
 
 <script>
   import ListPanel from '../components/ListPanel';
-  import { ITEM_REMOVE, ITEM_ADD, ITEM_LIST_GET, ITEM_CHANGE } from '../store/mutationTypes';
+  import { RECIPE_REMOVE, RECIPE_ADD, RECIPE_LIST_GET, RECIPE_CHANGE } from '../store/mutationTypes';
 
   import { mapState, mapActions } from 'vuex';
 
@@ -19,22 +20,27 @@
     components: { ListPanel },
     computed: {
       ...mapState({
-        items: state => state.item.list,
+        recipes: state => state.recipe.list,
       })
     },
     methods: {
+      dragStart(id, event) {
+        event.dataTransfer.setData('application/json', JSON.stringify({
+          type: 'recipe', id
+        }))
+      },
       ...mapActions({
         removeItem(dispatch, id) {
-          dispatch(ITEM_REMOVE.type, id);
+          dispatch(RECIPE_REMOVE.type, id);
         },
         addItem(dispatch, data) {
-          dispatch(ITEM_ADD.type, data);
+          dispatch(RECIPE_ADD.type, data);
         },
         getItemList(dispatch, name) {
-          dispatch(ITEM_LIST_GET.type, { name })
+          dispatch(RECIPE_LIST_GET.type, { name })
         },
         changeItem(dispatch, id, data) {
-          dispatch(ITEM_CHANGE.type, { id, ...data })
+          dispatch(RECIPE_CHANGE.type, { id, ...data })
         }
       })
     }

@@ -1,23 +1,9 @@
-<template>
-  <div id="app">
-    <nav class="nav">
-      <router-link
-        class="nav-btn"
-        tag="button"
-        to="recipes"
-      >
-        Recipes
-      </router-link>
-      <router-link
-        class="nav-btn"
-        tag="button"
-        to="chain"
-      >
-        Chain
-      </router-link>
-    </nav>
-    <router-view></router-view>
-  </div>
+<template lang="pug">
+  .app
+    nav.nav
+      router-link.nav-btn(tag="button" to="recipes") Recipes
+      router-link.nav-btn(tag="button" to="chain") Chain
+    router-view
 </template>
 
 <script>

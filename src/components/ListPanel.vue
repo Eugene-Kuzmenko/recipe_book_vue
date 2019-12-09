@@ -1,32 +1,24 @@
-<template>
-  <div class="container">
-    <header class="header">
-      <slot></slot>
-    </header>
-    <input
+<template lang="pug">
+  .container
+    .header
+      slot
+    input(
       v-model="name"
       class="input"
       type="text"
       @keypress.enter="$emit('fetch', name)"
-    />
-    <div class=list-container>
-      <ul class="list">
-        <button
-          class="add"
-          @click="$emit('add', { name })"
-        >
-          Add {{ name }}
-        </button>
-        <item
+    )
+    .list-container
+      ul.list
+        button.add(@click="$emit('add', { name })") Add {{ name }}
+        item(
           v-for="item in list"
           @remove="$emit('remove', item.id)"
           @update="$emit('update', item.id, $event)"
+          @dragstart="$emit('dragstart', item.id, $event)"
           :key="item.id"
           :name="item.name"
-        />
-      </ul>
-    </div>
-  </div>
+        )
 </template>
 
 <script>
@@ -103,7 +95,7 @@
     border: none;
     border-bottom: 1px solid #5A5A5A;
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.875rem;
     height: 35px;
   }
 

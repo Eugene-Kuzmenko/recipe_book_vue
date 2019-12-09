@@ -1,33 +1,21 @@
-<template>
-  <li class="item" :draggable="!isEditing">
-    <div
-      class="count"
-      v-if="count"
-    >
-      {{ count }}
-    </div>
-    <input
-      class='input'
+<template lang="pug">
+  li.item(
+    :draggable="!isEditing"
+    @dragstart="$emit('dragstart', $event)"
+  )
+    .count(v-if="count") {{ count }}
+    input.input(
       v-if="isEditing"
       type="text"
       v-model="newName"
       @keypress.enter="saveName"
       @blur="isEditing = false"
-    />
-    <div
+    )
+    .name(
       v-else
       @dblclick="startEditingName"
-      class="name"
-    >
-      {{ name }}
-    </div>
-    <button
-      class="remove"
-      v-on:click.stop.prevent="$emit('remove')"
-    >
-      X
-    </button>
-  </li>
+    ) {{ name }}
+    button.remove(@click.stop.prevent="$emit('remove')") X
 </template>
 
 <script>
@@ -66,8 +54,10 @@
     border: none;
     border-bottom: 1px solid #5A5A5A;
     margin: 0;
-    font-size: 1rem;
-    height: 35px;
+    font-size: 0.875rem; 
+    min-height: 35px;
+
+    height: min-content;
   }
 
   .item:active {
@@ -79,7 +69,7 @@
     border: 2px solid #6c6c6c;
     width: 100%;
     padding: 7px;
-    font-size: 0.9rem;  
+    font-size: 0.875rem;  
     font-weight: 500;
     box-sizing: border-box;
     color: rgba(255, 255, 255, 0.568);

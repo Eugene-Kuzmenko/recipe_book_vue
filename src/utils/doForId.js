@@ -1,6 +1,6 @@
-export default function doForId(list, id, callback) {
-  const index = list.findIndex(entry => entry.id === id);
-  if (index > 0) {
+export default function doForId(list, id, callback, idKey='id') {
+  const index = list.findIndex(entry => entry[idKey] === id);
+  if (index >= 0) {
     callback(index);
     return true;
   }

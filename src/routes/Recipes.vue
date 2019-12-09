@@ -1,14 +1,15 @@
-<template>
-  <div class="page">
-    <ItemPanel></ItemPanel>
-  </div>
+<template lang="pug">
+  .page
+    ItemPanel
+    Recipe
+    RecipePanel
 </template>
 
 <script>
-  import { ItemPanel } from '../components';
+  import { ItemPanel, RecipePanel, Recipe } from '../components';
 
   export default {
-    components: { ItemPanel },
+    components: { ItemPanel, RecipePanel, Recipe },
     name: "Recipes",
   }
 </script>
@@ -16,6 +17,7 @@
 <style scoped>
   .page {
     display: flex;
+    justify-content: space-between;
   }
 
 </style>
