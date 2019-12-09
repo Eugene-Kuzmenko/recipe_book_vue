@@ -1,5 +1,5 @@
 <template>
-  <li class="item">
+  <li class="item" :draggable="!isEditing">
     <div
       class="count"
       v-if="count"
@@ -11,19 +11,19 @@
       v-if="isEditing"
       type="text"
       v-model="newName"
-      v-on:keypress.enter="saveName"
-      v-on:blur="isEditing = false"
+      @keypress.enter="saveName"
+      @blur="isEditing = false"
     />
     <div
       v-else
-      v-on:dblclick="startEditingName"
+      @dblclick="startEditingName"
       class="name"
     >
-      {{ item.name }}
+      {{ name }}
     </div>
     <button
       class="remove"
-      v-on:click.stop.prevent="$emit('removeItem', item.id)"
+      v-on:click.stop.prevent="$emit('remove')"
     >
       X
     </button>
@@ -31,12 +31,9 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex';
-  import { ITEM_CHANGE } from '../store/mutationTypes';
-
   export default {
-    name: 'Item',
-    props: ['item', 'count'],
+    name: 'ListPanelItem',
+    props: ['name', 'count'],
 
     data() {
       return {
@@ -47,18 +44,13 @@
 
     methods: {
       startEditingName() {
-        this.$data.newName = this.$props.item.name;
+        this.$data.newName = this.name;
         this.$data.isEditing = true;
       },
-      ...mapActions({
-        saveName(dispatch) {
-          dispatch(ITEM_CHANGE.type, {
-            id: this.$props.item.id,
-            name: this.$data.newName,
-          });
-          this.$data.isEditing = false;
-        }
-      })
+      saveName() {
+        this.$emit('update', { name: this.newName });
+        this.isEditing = false;
+      }
     }
   };
 </script>
