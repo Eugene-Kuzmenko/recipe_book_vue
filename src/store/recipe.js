@@ -50,26 +50,25 @@ export default {
       }
     },
     [RECIPE_ITEM_REMOVE.SUCCESS](state, id) {
+      console.log('remove', id) //eslint-disable-line
       if (state.selected) {
         doForId(state.selected.items, id, i => {
-          state.selected.recipeItem.splice(i, 1);
-        }, 'item_id');
+          console.log('remove', id, i) //eslint-disable-line
+          state.selected.items.splice(i, 1);
+        });
       }
     },
     [ITEM_REMOVE.SUCCESS](state, id) {
       if (state.selected) {
         doForId(state.selected.items, id, i => {
-          state.selected.recipeItem.splice(i, 1);
+          state.selected.items.splice(i, 1);
         }, 'item_id');
       }
     },
-    [ITEM_CHANGE.SUCCESS](state, { id, ...recipeItem}) {
+    [ITEM_CHANGE.SUCCESS](state, { id, name}) {
       if (state.selected) {
         doForId(state.selected.items, id, i => {
-          state.selected.recipeItem[i] = {
-            ...state.selected.recipeItem,
-            ...recipeItem,
-          };
+          if (name) state.selected.items[i].item_name=name;
         }, 'item_id');
       }
     }
@@ -112,14 +111,14 @@ export default {
     async [RECIPE_ITEM_ADD](context, payload) {
       try {
         const { data } = await api.post('recipe-items/', payload);
-        context.commit(RECIPE_ITEM_REMOVE.SUCCESS, data);
+        context.commit(RECIPE_ITEM_ADD.SUCCESS, data);
       } catch (error) {
-        context.commit(RECIPE_ITEM_REMOVE.FAILURE, error);
+        context.commit(RECIPE_ITEM_ADD.FAILURE, error);
       }
     },
     async [RECIPE_ITEM_REMOVE](context, id) {
       try {
-        await api.delete(`recipes-items/${id}/`,);
+        await api.delete(`recipe-items/${id}/`,);
         context.commit(RECIPE_ITEM_REMOVE.SUCCESS, id);
       } catch (error) {
         context.commit(RECIPE_ITEM_REMOVE.FAILURE, error);

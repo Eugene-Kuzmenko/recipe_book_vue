@@ -25,9 +25,7 @@
     },
     methods: {
       dragStart(id, event) {
-        event.dataTransfer.setData('application/json', JSON.stringify({
-          type: 'recipe', id
-        }))
+        event.dataTransfer.setData('text/plain', `recipe,${id}`)
       },
       ...mapActions({
         removeItem(dispatch, id) {

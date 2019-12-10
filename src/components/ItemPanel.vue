@@ -1,6 +1,7 @@
 <template lang="pug">
   ListPanel(
     :list="items"
+    @dragstart="dragStart"
     @fetch="getItemList"
     @remove="removeItem"
     @add="addItem"
@@ -23,6 +24,9 @@
       })
     },
     methods: {
+      dragStart(id, event) {
+        event.dataTransfer.setData('text/plain', `item,${id}`)
+      },
       ...mapActions({
         removeItem(dispatch, id) {
           dispatch(ITEM_REMOVE.type, id);

@@ -1,28 +1,39 @@
 <template lang="pug">
   section.container
     .name(
-      @drop="dropRecipe"
-      @dragover.prevent="dragOverRecipe"
+      @drop.prevent="dropRecipe"
+      @dragover.prevent="dragOver('recipe', 'recipeHover', $event)"
+      @dragleave.prevent="recipeHover=false"
       :class="{dragover:recipeHover}"
     ) {{name}}
     .content
       .items-container In
-        ul.items.in
+        ul.items.in(
+          :class="{dragover:ingredientHover}"
+          @dragover.prevent="dragOver('item', 'ingredientHover', $event)"
+          @dragleave.prevent="ingredientHover=false"
+          @drop.prevent="dropItem($event)"
+        )
           item(
             v-for="item in ingredients"
             :key="item.item_id"
             :name="item.item_name"
-            :count="item.amount"
+            :count="item.qty"
             @remove="removeItem(item.id)"
             @update="changeItem(item.item_id, $event)"
           )
       .items-container Out
-        ul.items.out
+        ul.items.out(
+          :class="{dragover:productHover}"
+          @dragover.prevent="dragOver('item', 'productHover', $event)"
+          @dragleave.prevent="productHover=false"
+          @drop.prevent="dropItem($event, true)"
+        )
           item(
             v-for="item in products"
             :key="item.item_id"
             :name="item.item_name"
-            :count="item.amount"
+            :count="item.qty"
             @remove="removeItem(item.id)"
             @update="changeItem(item.item_id, $event)"
           )
@@ -33,6 +44,8 @@ import { ListPanelItem } from '.';
 import { mapState, mapActions } from 'vuex';
 
 import { RECIPE_ITEM_ADD, RECIPE_ITEM_REMOVE, ITEM_CHANGE, RECIPE_SELECT } from '../store/mutationTypes';
+
+const getDragData = event => event.dataTransfer.getData('text/plain').split(',');
 
 function filterItems(selected, isResult=false) {
   return (selected
@@ -73,11 +86,14 @@ export default {
     })
   },
   methods: {
-    dragOverRecipe() {
-      this.recipeHover = true;
-      return false;
+    dragOver(expectedType, hoverField, event) {
+      const [type, ] = getDragData(event)
+      if (type === expectedType) {
+        this[hoverField] = true;
+        return false;
+      }
     },
-    dragLeaveRecipe() {
+    dragLeave() {
       this.recipeHover = false;
       return false;
     },
@@ -92,13 +108,24 @@ export default {
         dispatch(ITEM_CHANGE.type, { id, ...data })
       },
       dropRecipe(dispatch, event) {
-        const rawData = event.dataTransfer.getData('application/json');
-
-        const data = JSON.parse(rawData);
-        if (data.type === 'recipe') {
-          dispatch(RECIPE_SELECT.type, data.id)
+        const [type, rawNumber] = getDragData(event);
+        if (type === 'recipe') {
+          dispatch(RECIPE_SELECT.type, Number(rawNumber))
         }
         this.recipeHover = false;
+      },
+      dropItem(dispatch, event, is_result = false) {
+        const [type, item_id] = getDragData(event);
+        if (type === 'item') {
+          dispatch(RECIPE_ITEM_ADD.type, {
+            recipe_id: this.recipeId,
+            qty:1,
+            item_id,
+            is_result, 
+          });
+        }
+        if (is_result) this.productHover = false;
+        else this.ingredientHover = false;
       }
     })
   }
